@@ -1,0 +1,12 @@
+<form {{action "authenticate" on="submit"}}>
+  <fieldset disabled={{isLoading}}>
+    {{input value=identification placeholder="Seu Login" class="form-control" required="required" autofocus="autofocus"}}
+    {{input value=password placeholder="Sua Senha" class="form-control" type="password" required="required"}}
+    <div class="form-signin-footer">
+      {{!--#link-to 'auth.forgot' classNames="forgot-pass"}}
+        Esqueceu sua senha?
+      {{/link-to--}}
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+  </fieldset>
+</form>

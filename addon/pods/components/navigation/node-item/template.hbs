@@ -1,0 +1,17 @@
+{{#if children}}
+  {{navigation/node-item-dropdown-toggle
+    content=content
+    title=content.label
+    data-toggle="dropdown"}}
+  {{navigation/nodes-tree
+    class="dropdown-menu"
+    content=children
+    nodes=nodes
+    navigation=navigation
+    onlyActiveBranch=onlyActiveBranch
+    onlyActiveDepth=onlyActiveDepth
+    flat=flat}}
+{{else}}
+  {{#navigation/node-item-link content.route
+    title=content.label content=content}}{{/navigation/node-item-link}}
+{{/if}}

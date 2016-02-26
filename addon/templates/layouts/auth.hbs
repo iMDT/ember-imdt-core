@@ -1,0 +1,14 @@
+<div class="auth-content">
+  <div class="form-signin">
+    <div class="form-signin-header">
+      {{configService.configs}}
+      {{#link-to 'auth.login' classNames="form-signin-brand"}}
+        <img src={{applicationParameters.login.logo.src}} alt={{applicationParameters.login.logo.alt}}>
+      {{/link-to}}
+      <small class="form-signin-version">{{applicationParameters.login.version}}</small>
+    </div>
+    <div class="form-signin-body">
+      {{outlet}}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+{{#each content as |node|}}
+  {{navigation/node-item
+    content=node
+    flat=flat
+    onlyActiveBranch=onlyActiveBranch
+    onlyActiveDepth=onlyActiveDepth
+    navigation=navigation
+    nodes=nodes}}
+{{/each}}

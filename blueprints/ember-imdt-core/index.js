@@ -68,6 +68,9 @@ module.exports = {
       }, {
         name: 'ember-cli-bootstrap-datepicker',
         target: 'latest'
+      }, {
+        name: 'ember-get-config',
+        target: 'latest'
       }]);
     });
   }

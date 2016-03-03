@@ -12,5 +12,6 @@ export default Ember.Object.extend({
   params: {},
   roles: [],
 
+  active: true,
   order: 0,
 });

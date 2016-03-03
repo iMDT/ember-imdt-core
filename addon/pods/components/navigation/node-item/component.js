@@ -13,17 +13,35 @@ export default CoreComponent.extend({
     return this.get('navigation').findChildren(this.get('content.name'), this.get('nodes'));
   }),
 
+  setupParent: function() {
+    let parentNode = this.get('navigation.nodes').findBy('name', this.get('content.parent'));
+    this.set('content.parentNode', parentNode);
+  }.on('init'),
+
   setupVisibility: function() {
     const Acl = this.get('acl');
     const roles = this.get('content.roles');
+    let shouldBeVisible = true;
 
-    this.set('isVisible', Acl.hasRoles(roles));
-  }.on('init'),
+    if(this.get('onlyActiveDepth')) {
+      let parentNode = this.get('content.parentNode');
+      if(parentNode) {
+        shouldBeVisible = parentNode.get('active');
+      }
+    }
+
+
+    this.set('isVisible', Acl.hasRoles(roles) && shouldBeVisible);
+  }.on('init').observes('content.parentNode.active'),
 
   // Brute-force solutuin
   // https://github.com/alexspeller/ember-cli-active-link-wrapper/issues/4
   active: Ember.computed('childLinkViews.@each.active', function() {
     return Ember.A(this.get('childLinkViews')).isAny('active');
+  }),
+
+  activeDidChange: Ember.observer('active', function() {
+    this.set('content.active', this.get('active'));
   }),
 
   didRender: function() {

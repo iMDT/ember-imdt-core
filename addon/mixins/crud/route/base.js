@@ -20,8 +20,8 @@ export default Ember.Mixin.create({
   },
 
   handleError(e) {
-    console.error(e.stack);
-    e.errors.forEach(error => this.get('flashMessages').danger(error.message || error.detail));
+    console.error(e);
+    this.get('currentModel.errors.base').forEach(error => this.get('flashMessages').danger(error.message || error.detail));
   },
 
   doSave() {
@@ -38,17 +38,17 @@ export default Ember.Mixin.create({
 
   actions: {
     save() {
-      this.doSave()
+      return this.doSave()
         .then(() => this.handleSaveSuccess())
         .catch((e) => this.handleError(e));
     },
 
     cancel() {
-      this.transitionTo(this.get('transitionToName'));
+      return this.transitionTo(this.get('transitionToName'));
     },
 
     delete() {
-      this.get('currentModel').destroyRecord()
+      return this.get('currentModel').destroyRecord()
         .then(() => this.handleDeleteSuccess())
         .catch((e) => this.handleError(e));
     }

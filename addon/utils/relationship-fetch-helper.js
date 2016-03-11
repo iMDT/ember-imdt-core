@@ -39,7 +39,7 @@ export function filterAllRelationships(model, callback, excludedRelations = []) 
 
     properties[name] = Ember.computed(`model.id`, function() {
       return DS.PromiseArray.create({
-        promise: Promise.all([this.store.findAll(meta.type), this.get(`model.${name}`)]).then((values) => {
+        promise: Promise.all([this.store.findAll(meta.type), model.get(name)]).then((values) => {
           let [all, related] = values;
           return all.filter(row => callback(row, related, meta.kind));
         })

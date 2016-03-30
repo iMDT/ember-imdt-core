@@ -29,12 +29,13 @@ export default Base.extend({
     const serverAuthenticateEndpoint = this.get('serverAuthenticateEndpoint');
     const basicAuth64 = btoa(`${identification}:${password}`);
 
-    return this.get('ajax').get({
+    let request = {
       url: serverAuthenticateEndpoint,
-      headers: {
-        'Authorization': `Basic ${basicAuth64}`
-      }
-    });
+    };
+    if(identification || password) {
+      request.Authorization = `Basic ${basicAuth64}`;
+    }
+    return this.get('ajax').get(request);
   },
   invalidate(data) {
     const serverInvalidateEndpoint = this.get('serverInvalidateEndpoint');

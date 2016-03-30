@@ -10,7 +10,7 @@ export default Base.extend({
     const tokenAttributeName = this.get('tokenAttributeName');
     const userToken          = data[tokenAttributeName];
 
-    if (!isEmpty(userToken)) {
+    if (!isEmpty(userToken) && !document.cookie) {
       block('Authorization', `Token ${userToken}`);
     }
   }

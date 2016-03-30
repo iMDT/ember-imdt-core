@@ -87,6 +87,10 @@ export default Ember.Service.extend({
       }
 
       var realUrl = self.config.baseURL.concat(self.config.namespace, url);
+      // dirty fix for relative urls
+      if(realUrl.indexOf('//') === 0) {
+        realUrl = realUrl.replace('//', '/');
+      }
       Ember.$.ajax(realUrl, args);
     };
 

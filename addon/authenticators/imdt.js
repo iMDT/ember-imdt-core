@@ -33,7 +33,9 @@ export default Base.extend({
       url: serverAuthenticateEndpoint,
     };
     if(identification || password) {
-      request.Authorization = `Basic ${basicAuth64}`;
+      request.headers = {
+        Authorization: `Basic ${basicAuth64}`
+      };
     }
     return this.get('ajax').get(request);
   },

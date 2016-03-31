@@ -20,7 +20,7 @@ export default Base.extend({
     const tokenAttributeName = this.get('tokenAttributeName');
     const userToken = data[tokenAttributeName];
 
-    if (!isEmpty(userToken) && getCookie('PD-S-SESSION-ID')) {
+    if (!isEmpty(userToken) && !getCookie('PD-S-SESSION-ID')) {
       block('Authorization', `Token ${userToken}`);
     }
   }

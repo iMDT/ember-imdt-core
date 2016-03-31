@@ -18,10 +18,10 @@ module.exports = {
       target: '~0.12.1'
     }, {
       name: 'bootstrap',
-      target: 'latest'
+      target: '3.3.6'
     }, {
       name: 'bootswatch',
-      target: 'latest'
+      target: '3.3.6'
     }, {
       name: 'bootstrap-sass',
       target: 'latest'

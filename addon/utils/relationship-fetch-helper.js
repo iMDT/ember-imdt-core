@@ -1,22 +1,15 @@
 import Ember from 'ember';
-import DS from 'ember-data';
 
-export function filterByAtivoOrCurrent(row, related, kind) {
-  if(kind === 'belongsTo') {
-    if(related) {
-      return row.get('id') === related.get('id') || row.get('ativo');
-    }
+export function filterByAtivoOrCurrent(model, related) {
+  let filter = {
+    id: {
+      value: model.get(`${related}.id`),
+      logic: 'or'
+    },
+    ativo: true
+  };
 
-    return row.get('ativo');
-  } else if(kind === 'hasMany') {
-    if(related) {
-      return related.isAny('id', row.get('id')) || row.get('ativo');
-    }
-
-    return row.get('ativo');
-  }
-
-  return true;
+  return filter;
 }
 
 export function findAllRelationships(model) {
@@ -38,12 +31,7 @@ export function filterAllRelationships(model, callback, excludedRelations = []) 
     }
 
     properties[name] = Ember.computed(`model.id`, function() {
-      return DS.PromiseArray.create({
-        promise: Promise.all([this.store.findAll(meta.type), model.get(name)]).then((values) => {
-          let [all, related] = values;
-          return all.filter(row => callback(row, related, meta.kind));
-        })
-      });
+      return this.store.fetch(meta.type, callback(model, name), 'nome');
     });
 
     // properties[name] = DS.PromiseArray.create({

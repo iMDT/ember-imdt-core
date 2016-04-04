@@ -3,7 +3,11 @@
     <div class="form-signin-header">
       {{configService.configs}}
       {{#link-to 'auth.login' classNames="form-signin-brand"}}
-        <img src={{applicationParameters.login.logo.src}} alt={{applicationParameters.login.logo.alt}}>
+        {{#if applicationParameters.login.logo.src}}
+          <img src={{applicationParameters.login.logo.src}} alt={{applicationParameters.login.logo.alt}}>
+        {{else if applicationParameters.login.logo.html}}
+          {{partial applicationParameters.login.logo.html}}
+        {{/if}}
       {{/link-to}}
       <small class="form-signin-version">{{applicationParameters.login.version}}</small>
     </div>

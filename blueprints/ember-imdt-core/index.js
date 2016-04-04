@@ -58,7 +58,7 @@ module.exports = {
         target: '1.3.7'
       }, {
         name: 'ember-simple-auth',
-        target: 'latest'
+        target: '1.0.1'
       }, {
         name: 'ember-imdt-table',
         target: 'latest'

@@ -31,7 +31,11 @@ export default Base.extend({
 
     let request = {
       url: serverAuthenticateEndpoint,
+      xhrFields: {
+        withCredentials: true
+      }
     };
+    
     if(identification || password) {
       request.headers = {
         Authorization: `Basic ${basicAuth64}`
@@ -49,7 +53,7 @@ export default Base.extend({
         url: serverInvalidateEndpoint,
         headers: {
           'Authorization': `Token ${userToken}`
-        }
+        },
       }).then(function() {
         resolve(...arguments);
       }).catch(function(reason) {

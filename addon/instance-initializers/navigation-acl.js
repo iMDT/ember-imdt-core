@@ -19,7 +19,8 @@ function getRoles(routes, container) {
     let route = container.lookup('route:' + routeName);
 
     if (!route) {
-      throw new Error('Failed to lookup route "' + routeName + '" or it does not exist.');
+      return [];
+      // throw new Error('Failed to lookup route "' + routeName + '" or it does not exist.');
     }
 
     let routeRoles = route.get('roles') || Ember.A([]);
@@ -39,18 +40,27 @@ function getRoles(routes, container) {
   return roles;
 }
 
+function injectRoles(item, applicationInstance) {
+  if (item.route) {
+    let routes = parseRouteName(item.route);
+    let roles = getRoles(routes, applicationInstance);
+
+    item['roles'] = roles;
+  }
+
+  if (item.children) {
+    item.children.forEach((child) => {
+      injectRoles(child, applicationInstance);
+    });
+  }
+}
+
 export function initialize(applicationInstance) {
   let navigationItems = applicationInstance.lookup('application:main').get('navigation');
+
   Object.keys(navigationItems).forEach((navigation) => {
     navigationItems[navigation].forEach((item) => {
-      if(!item.route) {
-        return;
-      }
-
-      let routes = parseRouteName(item.route);
-      let roles = getRoles(routes, applicationInstance);
-
-      item['roles'] = roles;
+      injectRoles(item, applicationInstance);
     });
   });
 }

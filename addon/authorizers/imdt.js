@@ -15,10 +15,16 @@ const getCookie = function(name) {
 
 export default Base.extend({
   tokenAttributeName: 'session_token',
+  socketAttributeName: 'websocket',
+  websocket: Ember.inject.service('websocket-services'),
 
   authorize(data, block) {
     const tokenAttributeName = this.get('tokenAttributeName');
     const userToken = data[tokenAttributeName];
+
+    if(this.get('websocket')) {
+      this.get('websocket').setupProperties(data[this.get('socketAttributeName')]);
+    }
 
     if (!isEmpty(userToken) && !getCookie('PD-S-SESSION-ID')) {
       block('Authorization', `Token ${userToken}`);

@@ -1,9 +1,9 @@
 import Ember from 'ember';
 
-export function filterByAtivoOrCurrent(model, related) {
+export function filterByAtivoOrCurrent(model, name, meta) {
   let filter = {
     id: {
-      value: model.get(`${related}.id`),
+      value: meta.kind === 'belongsTo' ? model.get(`${name}.id`) : model.hasMany(name).ids().join(','),
       logic: 'or'
     },
     ativo: true
@@ -31,7 +31,7 @@ export function filterAllRelationships(model, callback, excludedRelations = []) 
     }
 
     properties[name] = Ember.computed(`model.id`, function() {
-      return this.store.fetch(meta.type, callback(model, name), 'nome');
+      return this.store.fetch(meta.type, callback(model, name, meta), 'nome');
     });
 
     // properties[name] = DS.PromiseArray.create({

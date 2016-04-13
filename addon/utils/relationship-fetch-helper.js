@@ -1,13 +1,22 @@
 import Ember from 'ember';
 
+const {
+  isBlank
+} = Ember;
+
 export function filterByAtivoOrCurrent(model, name, meta) {
+  let idValue = (meta.kind === 'belongsTo') ? model.belongsTo(name).id() : model.hasMany(name).ids().join(',');
+
   let filter = {
-    id: {
-      value: meta.kind === 'belongsTo' ? model.get(`${name}.id`) : model.hasMany(name).ids().join(','),
-      logic: 'or'
-    },
     ativo: true
   };
+
+  if(!isBlank(idValue)){
+    filter.id = {
+      value: idValue,
+      logic: 'or'
+    };
+  }
 
   return filter;
 }

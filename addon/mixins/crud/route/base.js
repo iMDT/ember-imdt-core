@@ -9,9 +9,12 @@ export default Ember.Mixin.create({
     deleted: 'Registro excluido com sucesso!',
   },
 
-  handleSaveSuccess() {
+  handleSaveSuccess(defer) {
     return this.transitionTo(this.get('transitionToName'))
-      .then(() => this.get('flashMessages').success(this.get('messages.saved')));
+      .then(() => {
+        defer.resolve();
+        this.get('flashMessages').success(this.get('messages.saved'));
+      });
   },
 
   handleDeleteSuccess() {
@@ -21,7 +24,12 @@ export default Ember.Mixin.create({
 
   handleError(e) {
     console.error(e);
-    this.get('currentModel.errors.base').forEach(error => this.get('flashMessages').danger(error.message || error.detail));
+    let baseErrors = this.get('currentModel.errors.base');
+    if(baseErrors) {
+      this.get('currentModel.errors.base').forEach(error => this.get('flashMessages').danger(error.message || error.detail));
+    } else {
+      this.get('flashMessages').danger(e.message || e.description);
+    }
   },
 
   doSave() {
@@ -37,10 +45,13 @@ export default Ember.Mixin.create({
   },
 
   actions: {
-    save() {
+    save(defer) {
       return this.doSave()
-        .then(() => this.handleSaveSuccess())
-        .catch((e) => this.handleError(e));
+        .then(() => this.handleSaveSuccess(defer))
+        .catch((e) => {
+          defer.resolve();
+          return this.handleError(e);
+        });
     },
 
     cancel() {

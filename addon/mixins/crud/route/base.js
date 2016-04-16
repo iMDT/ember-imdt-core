@@ -7,7 +7,7 @@ export default Ember.Mixin.create({
   messages: {
     saved: 'Registro salvo com sucesso!',
     deleted: 'Registro excluido com sucesso!',
-    error: 'Ops! Erro ao salvar registro'
+    error: 'Ops! Erro ao salvar registro',
   },
 
   handleSaveSuccess(defer) {
@@ -29,7 +29,7 @@ export default Ember.Mixin.create({
     if(baseErrors) {
       this.get('currentModel.errors.base').forEach(error => this.get('flashMessages').danger(error.message || error.detail));
     } else {
-      this.get('flashMessages').danger(this.get('messages.saved'));
+      this.get('flashMessages').danger(this.get('messages.error'));
     }
   },
 

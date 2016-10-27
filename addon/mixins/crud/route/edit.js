@@ -7,7 +7,9 @@ export default Ember.Mixin.create(CrudRouteBaseMixin, {
   },
   actions: {
     willTransition() {
-      this.get('currentModel').rollbackAttributes();
+      if(!this.get('currentModel').get('isDeleted')) {
+        this.get('currentModel').rollbackAttributes();
+      }
     }
   }
 });
